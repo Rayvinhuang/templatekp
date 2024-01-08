@@ -29,7 +29,14 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validasi = $request ->validate([
+            "namacustomer" = "required|unique,customer",
+            "membership_id" =>"required",
+            "alamat" =>"required",
+             
+        ]);
+        return redirect('jenisMenu')->with("success","Data jenisMenu berhasil disimpan");
+
     }
 
     /**
@@ -53,7 +60,16 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $Customer = Customer::where('id', $id)->update($validate);
+        if($Customer){
+            $response['success'] = true;
+            $response['message'] = 'Customer berhasil diperbarui';
+            return response()->json($response, Response::HTTP_OK);
+        }
+        else{
+            $response['success'] = false;
+            $response['message'] = 'Customer gagal diperbarui';
+            return response()->json($response, Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -61,6 +77,16 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $Customer = Customer::where('id', $id);
+        if($Customer){
+            $Customer->delete();
+            $response['success'] = true;
+            $response['message'] = 'Customer berhasil dihapus';
+            return response()->json($response, Response::HTTP_OK);
+        }
+        else{
+            $response['success'] = false;
+            $response['message'] = 'Data Customer tidak ditemukan';
+            return response()->json($response, Response::HTTP_NOT_FOUND);
     }
 }
