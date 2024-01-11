@@ -14,6 +14,6 @@ class Makanan extends Model
 
     public function jenisMenu()
     {
-        return $this->belongsToMany(JenisMenu::class, 'jenis_id');
+        return $this->belongsTo(JenisMenu::class, 'jenis_id');
     }
 }

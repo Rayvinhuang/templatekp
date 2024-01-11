@@ -10,7 +10,7 @@ class Customer extends Model
 {
     use HasFactory, HasUuids;
     protected $table ='customers';
-    protected $fillable = ['namaCustomer', 'alamat', 'membership_id'];
+    protected $fillable = ['namaCustomer', 'noTelp', 'membership_id'];
 
     public function membership()
     {

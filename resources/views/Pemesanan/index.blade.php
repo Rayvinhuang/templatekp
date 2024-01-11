@@ -1,12 +1,18 @@
 @extends('layout.main')
-@section('title', 'Transaksi')
+@section('title', 'Pemesanan')
 
 @section('content')
-<h1 class="h3 mb-2 text-gray-800">Daftar Transaksi</h1>
-<p class="mb-4">Daftar Transaksi <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+<h1 class="h3 mb-2 text-gray-800">Pesan Menu</h1>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Daftar Pesanan</h6>
+        <br>
+        <a href="{{ route('customer.create')}}" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-flag"></i>
+            </span>
+            <span class="text">Pesan Sekarang</span>
+        </a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -26,32 +32,47 @@
                 <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                     <thead>
                         <tr role="row">
-                            <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 74.2px;">Tanggal</th>
-                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 97.2px;">Nama Customer</th>
-                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 58.2px;">Pesanan Makanan</th>
-                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30.2px;">Pesanan Minuman</th>
-                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 70.2px;">Jenis Memberhsip</th>
-                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 66.2px;">totalHarga</th>
+                            <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 74.2px;">Nama Customer</th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 97.2px;">Nama Menu</th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 58.2px;">Jumlah</th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 58.2px;"></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th rowspan="1" colspan="1">Tanggal</th>
                             <th rowspan="1" colspan="1">Nama Customer</th>
-                            <th rowspan="1" colspan="1">Pesanan Makanan</th>
-                            <th rowspan="1" colspan="1">Pesanan Minuman</th>
-                            <th rowspan="1" colspan="1">Jenis Membership</th>
-                            <th rowspan="1" colspan="1">totalHarga</th>
+                            <th rowspan="1" colspan="1">Nama Makanan</th>
+                            <th rowspan="1" colspan="1">Jumlah</th>
+                            <th rowspan="1" colspan="1"></th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($transsaksis as $item)
-                        <tr>
-                                <td>{{ $item['tanggal']}}</td>
-                                <td>{{ $item['customers']['namaCustomer']}}</td>
-                                <td>{{ $item['makanans']['namaMakanan']}}</td>
-                                <td>{{ $item['minumans']['namaMinumans']}}</td>
-                                <td>{{ $item['totalHarga']}}</td>
+                        @foreach ($pemesanans as $item)
+                            <tr>
+                                <td>{{ $item['tgl']}}</td>
+                                <td>{{ $item['customer']['namaCustomer']}}</td>
+                                <td>{{ $item['detail']['namaMakanan']}}</td>
+                                <td>{{ $item['detail']['namaMinuman']}}</td>
+                                <td>
+                                    <div>
+                                        <a href="{{ route('pemesanan.edit', $item->id) }}" class="btn btn-success btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                            <button type="submit" class="btn btn-success btn-icon-split">Edit</button>
+                                        </a>
+                                        <form method="POST" action="{{ route('pemesanan.destroy', $item->id)}}">
+                                            @method('delete')
+                                            @csrf
+                                            <a class="btn btn-danger btn-icon-split">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-check"></i>
+                                                </span>
+                                               <button type="submit" class="btn btn-danger btn-icon-split">Batalkan</button>
+                                            </a>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                 </table>

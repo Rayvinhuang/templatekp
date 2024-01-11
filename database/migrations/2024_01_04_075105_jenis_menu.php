@@ -10,8 +10,8 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void{Schema::create('jenis_menus', function (Blueprint $table){
-        $table->uuid('idJenis');
-        $table->primary('idJenis', 4);
+        $table->uuid('id');
+        $table->primary('id');
         $table->string('namaJenis',30);
         $table->timestamps();
     });

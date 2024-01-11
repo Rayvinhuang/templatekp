@@ -5,7 +5,9 @@ use App\Http\Controllers\MinumanController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\JenisMenuController;
 use App\Http\Controllers\MembershipController;
-use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,17 +21,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::middleware(['auth', 'checkRole:A,U'])->group(function () {
+    Route::get('dashboard', [HomeController::class, 'index'])->middleware(['auth', 'verified', 'checkRole:A,U'])->name('dashboard');
+    Route::resource('makanan', MakananController::class);
+    Route::resource('minuman', MinumanController::class);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::middleware(['auth', 'checkRole:A'])->group(function () {
+    Route::resource('customer', CustomerController::class);
+    Route::resource('membership', MembershipController::class);
+    Route::resource('jenisMenu', JenisMenuController::class);
 });
 
-Route::resource('makanan', MakananController::class);
-Route::resource('minuman', MinumanController::class);
-Route::resource('customer', CustomerController::class);
-Route::resource('membership', MembershipController::class);
-Route::resource('jenisMenu', JenisMenuController::class);
-Route::resource('transaksi', TransaksiController::class);
+Route::resource('login', LoginController::class);
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::resource('register', RegisterController::class);

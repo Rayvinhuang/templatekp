@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Membership;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -19,9 +20,10 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Customer $customer)
     {
-        return view('Customer.create');
+        $membership = Membership::all();
+        return view("Customer.create")->with("membership", $membership);
     }
 
     /**
@@ -29,13 +31,15 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $validasi = $request ->validate([
-            "namacustomer" = "required|unique,customer",
-            "membership_id" =>"required",
-            "alamat" =>"required",
-             
+        $validasi = $request->validate([
+            "namaCustomer" => "required",
+            "membership_id" => "required",
+            "noTelp" => "required"
         ]);
-        return redirect('jenisMenu')->with("success","Data jenisMenu berhasil disimpan");
+
+        Customer::create($validasi);
+
+        return redirect('customer')->with("Success","Data Customer berhasil disimpan");
 
     }
 
@@ -52,7 +56,8 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        $membership = Membership::all();
+        return view('Customer.edit')->with("customer", $customer)->with("membership", $membership);
     }
 
     /**
@@ -60,16 +65,14 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        $Customer = Customer::where('id', $id)->update($validate);
-        if($Customer){
-            $response['success'] = true;
-            $response['message'] = 'Customer berhasil diperbarui';
-            return response()->json($response, Response::HTTP_OK);
-        }
-        else{
-            $response['success'] = false;
-            $response['message'] = 'Customer gagal diperbarui';
-            return response()->json($response, Response::HTTP_NOT_FOUND);
+        $validasi = $request->validate([
+            "namaCustomer" => "required",
+            "membership_id" => "required",
+            "noTelp" => "required"
+        ]);
+
+        $customer->update($validasi);
+        return redirect('customer')->with("Success", "Data Customer berhasil disimpan");
     }
 
     /**
@@ -77,16 +80,8 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        $Customer = Customer::where('id', $id);
-        if($Customer){
-            $Customer->delete();
-            $response['success'] = true;
-            $response['message'] = 'Customer berhasil dihapus';
-            return response()->json($response, Response::HTTP_OK);
-        }
-        else{
-            $response['success'] = false;
-            $response['message'] = 'Data Customer tidak ditemukan';
-            return response()->json($response, Response::HTTP_NOT_FOUND);
+        $customer->delete();
+        return redirect('customer')->with('Success', 'Data Customer Berhasil Dihapus');
     }
+
 }

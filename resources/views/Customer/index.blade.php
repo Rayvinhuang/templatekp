@@ -3,10 +3,16 @@
 
 @section('content')
 <h1 class="h3 mb-2 text-gray-800">Customers</h1>
-<p class="mb-4">Data Customer Membership <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Daftar Customers</h6>
+        <br>
+        <a href="{{ route('customer.create')}}" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-flag"></i>
+            </span>
+            <span class="text">Tambah Customer</span>
+        </a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -28,22 +34,44 @@
                         <tr role="row">
                             <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 74.2px;">Nama Customer</th>
                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 97.2px;">Jenis Membership</th>
-                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 58.2px;">Alamat</th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 58.2px;">Nomor Telepon</th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 58.2px;"></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th rowspan="1" colspan="1">Nama Customer</th>
                             <th rowspan="1" colspan="1">Jenis Membership</th>
-                            <th rowspan="1" colspan="1">Alamat</th>
+                            <th rowspan="1" colspan="1">Nomor Telepon</th>
+                            <th rowspan="1" colspan="1"></th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach ($customers as $item)
                             <tr>
                                 <td>{{ $item['namaCustomer']}}</td>
-                                <td>{{ $item['memberships']['jenisMembership']}}</td>
-                                <td>{{ $item['alamat']}}</td>
+                                <td>{{ $item['noTelp']}}</td>
+                                <td>{{ $item['membership']['jenisMembership']}}</td>
+                                <td>
+                                    <div>
+                                        <a href="{{ route('customer.edit', $item->id) }}" class="btn btn-success btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                            <button type="submit" class="btn btn-success btn-icon-split">Edit</button>
+                                        </a>
+                                        <form method="POST" action="{{ route('customer.destroy', $item->id)}}">
+                                            @method('delete')
+                                            @csrf
+                                            <a class="btn btn-danger btn-icon-split">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-check"></i>
+                                                </span>
+                                               <button type="submit" class="btn btn-danger btn-icon-split">Delete</button>
+                                            </a>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                 </table>

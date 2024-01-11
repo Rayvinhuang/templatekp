@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Minuman;
+use App\Models\JenisMenu;
 use Illuminate\Http\Request;
 
 class MinumanController extends Controller
@@ -21,7 +22,8 @@ class MinumanController extends Controller
      */
     public function create()
     {
-        //
+        $jenisMenu = JenisMenu::all();
+        return view("Minuman.create")->with("jenisMenu", $jenisMenu);
     }
 
     /**
@@ -29,7 +31,14 @@ class MinumanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validasi = $request->validate([
+            "namaMinuman" => "required",
+            "jenis_id" => "required",
+            "harga" => "required"
+        ]);
+        // simpan data ke table Makanan
+        Minuman::create($validasi);
+        return redirect('minuman')->with("Success", "Daftar Minuman berhasil disimpan");
     }
 
     /**
@@ -45,7 +54,8 @@ class MinumanController extends Controller
      */
     public function edit(Minuman $minuman)
     {
-        //
+        $jenisMenu = JenisMenu::all();
+        return view('Minuman.edit')->with("minuman", $minuman)->with("jenisMenu", $jenisMenu);
     }
 
     /**
@@ -53,7 +63,14 @@ class MinumanController extends Controller
      */
     public function update(Request $request, Minuman $minuman)
     {
-        //
+        $validasi = $request->validate([
+            "namaMinuman" => "required",
+            "jenis_id" => "required",
+            "harga" => "required"
+        ]);
+        // simpan data ke table Makanan
+        $minuman->update($validasi);
+        return redirect('minuman')->with("Success", "Daftar Minuman berhasil disimpan");
     }
 
     /**
@@ -61,6 +78,7 @@ class MinumanController extends Controller
      */
     public function destroy(Minuman $minuman)
     {
-        //
+        $minuman->delete();
+        return redirect('minuman')->with('Success', 'Data Minuman Berhasil Dihapus');
     }
 }

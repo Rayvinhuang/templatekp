@@ -9,20 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void{Schema::create('memberships', function (Blueprint $table){
-        $table->uuid('id');
-        $table->primary('id');
-        $table->string('jenisMembership', 20);
-        $table->timestamps();
-    });    //
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['A','U'])->default('U')->after('password');
+        });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaksi;
+use App\Models\history_pesanan;
 use Illuminate\Http\Request;
 
-class TransaksiController extends Controller
+class HistoryPesananController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $transaksi = Transaksi::all();
-        return view("Transaksi.index")->with("transsaksis", $transaksi);
+        //
     }
 
     /**
@@ -35,7 +34,7 @@ class TransaksiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Transaksi $transaksi)
+    public function show(history_pesanan $history_pesanan)
     {
         //
     }
@@ -43,7 +42,7 @@ class TransaksiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Transaksi $transaksi)
+    public function edit(history_pesanan $history_pesanan)
     {
         //
     }
@@ -51,7 +50,7 @@ class TransaksiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Transaksi $transaksi)
+    public function update(Request $request, history_pesanan $history_pesanan)
     {
         //
     }
@@ -59,7 +58,7 @@ class TransaksiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaksi $transaksi)
+    public function destroy(history_pesanan $history_pesanan)
     {
         //
     }

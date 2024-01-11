@@ -10,12 +10,12 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void{Schema::create('customers', function (Blueprint $table){
-        $table->uuid('idCustomer');
-        $table->primary('idCustomer', 8);
+        $table->uuid('id');
+        $table->primary('id');
         $table->string('namaCustomer', 30);
-        $table->string('alamat', 50);
+        $table->string('noTelp', 13);
         $table->uuid('membership_id');
-        $table->foreign('membership_id')->references('idMembership')->on('memberships')->
+        $table->foreign('membership_id')->references('id')->on('memberships')->
         restrictOnDelete()->restrictOnUpdate();
         $table->timestamps();
     });    //

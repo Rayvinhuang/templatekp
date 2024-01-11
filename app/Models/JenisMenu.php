@@ -11,4 +11,9 @@ class JenisMenu extends Model
     use HasFactory, HasUuids;
     protected $table ='jenis_menus';
     protected $fillable = ['namaJenis'];
+
+    public function makanans()
+    {
+        return $this->hasMany(JenisMenu::class, 'jenis_id');
+    }
 }

@@ -3,10 +3,18 @@
 
 @section('content')
 <h1 class="h3 mb-2 text-gray-800">Menu Minuman</h1>
-<p class="mb-4">Daftar Menu Minuman <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Daftar Menu Minuman</h6>
+        <br>
+        @if(auth()->user()->role == 'A')
+        <a href="{{ route('minuman.create')}}" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-flag"></i>
+            </span>
+            <span class="text">Tambah Menu Minuman</span>
+        </a>
+        @endif
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -29,12 +37,14 @@
                             <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 74.2px;">Nama Minuman</th>
                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 97.2px;">Harga</th>
                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 58.2px;">Jenis Minuman</th>
+                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 58.2px;"></th>
                     </thead>
                     <tfoot>
                         <tr>
                             <th rowspan="1" colspan="1">Nama Minuman</th>
                             <th rowspan="1" colspan="1">Harga</th>
                             <th rowspan="1" colspan="1">Jenis Minuman</th>
+                            <th rowspan="1" colspan="1"></th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -42,7 +52,29 @@
                             <tr>
                                 <td>{{ $item['namaMinuman']}}</td>
                                 <td>{{ $item['harga']}}</td>
-                                <td>{{ $item['jenis_menus']['namaJenis']}}</td>
+                                <td>{{ $item['jenisMenu']['namaJenis']}}</td>
+                                @if(auth()->user()->role == 'A')
+                                <td>
+                                    <div>
+                                        <a href="{{ route('minuman.edit', $item->id) }}" class="btn btn-success btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                            <button type="submit" class="btn btn-success btn-icon-split">Edit</button>
+                                        </a>
+                                        <form method="POST" action="{{ route('minuman.destroy', $item->id)}}">
+                                            @method('delete')
+                                            @csrf
+                                            <a class="btn btn-danger btn-icon-split">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-check"></i>
+                                                </span>
+                                               <button type="submit" class="btn btn-danger btn-icon-split">Delete</button>
+                                            </a>
+                                        </form>
+                                    </div>
+                                </td>
+                                @endif
                             </tr>
                         @endforeach
                 </table>

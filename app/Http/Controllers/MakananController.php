@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Makanan;
+use App\Models\JenisMenu;
 use Illuminate\Http\Request;
 
 class MakananController extends Controller
@@ -21,7 +22,8 @@ class MakananController extends Controller
      */
     public function create()
     {
-        //
+       $jenisMenu = JenisMenu::all();
+       return view("Makanan.create")->with("jenisMenu", $jenisMenu);
     }
 
     /**
@@ -29,7 +31,14 @@ class MakananController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validasi = $request->validate([
+            "namaMakanan" => "required",
+            "jenis_id" => "required",
+            "harga" => "required"
+        ]);
+        // simpan data ke table Makanan
+        Makanan::create($validasi);
+        return redirect('makanan')->with("Success", "Daftar Makanan berhasil disimpan");
     }
 
     /**
@@ -45,7 +54,8 @@ class MakananController extends Controller
      */
     public function edit(Makanan $makanan)
     {
-        //
+        $jenisMenu = JenisMenu::all();
+        return view('Makanan.edit')->with("makanan", $makanan)->with("jenisMenu", $jenisMenu);
     }
 
     /**
@@ -53,7 +63,14 @@ class MakananController extends Controller
      */
     public function update(Request $request, Makanan $makanan)
     {
-        //
+        $validasi = $request->validate([
+            "namaMakanan" => "required",
+            "jenis_id" => "required",
+            "harga" => "required"
+        ]);
+        // simpan data ke table Makanan
+        $makanan->update($validasi);
+        return redirect('makanan')->with("Success", "Data Makanan berhasil disimpan");
     }
 
     /**
@@ -61,6 +78,7 @@ class MakananController extends Controller
      */
     public function destroy(Makanan $makanan)
     {
-        //
+        $makanan->delete();
+        return redirect('makanan')->with('Success', 'Data Makanan Berhasil Dihapus');
     }
 }

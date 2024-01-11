@@ -3,11 +3,17 @@
 
 @section('content')
 <h1 class="h3 mb-2 text-gray-800">Membership</h1>
-<p class="mb-4">Daftar Membership <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
 <div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-    </div>
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Membership</h6>
+            <br>
+            <a href="{{ route('membership.create')}}" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-flag"></i>
+                </span>
+                <span class="text">Tambah Membership</span>
+            </a>
+        </div>
     <div class="card-body">
         <div class="table-responsive">
             <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -27,17 +33,39 @@
                     <thead>
                         <tr role="row">
                             <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 74.2px;">Jenis Membership</th>
+                            <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 74.2px;"></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th rowspan="1" colspan="1">Jenis Membership</th>
+                            <th rowspan="1" colspan="1"></th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach ($memberships as $item)
                             <tr>
                                 <td>{{ $item['jenisMembership']}}</td>
+                                <td>
+                                    <div>
+                                        <a href="{{ route('membership.edit', $item->id) }}" class="btn btn-success btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                            <button type="submit" class="btn btn-success btn-icon-split">Edit</button>
+                                        </a>
+                                        <form method="POST" action="{{ route('membership.destroy', $item->id)}}">
+                                            @method('delete')
+                                            @csrf
+                                            <a class="btn btn-danger btn-icon-split">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-check"></i>
+                                                </span>
+                                               <button type="submit" class="btn btn-danger btn-icon-split">Delete</button>
+                                            </a>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                 </table>
